@@ -3,9 +3,18 @@ package horoscope
 import (
 	"net/http"
 	"encoding/json"
+	"smarthoroscope_api/core"
 )
 
 
 func GetStats(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("{0:{00:8,01:9,02:5,03:4}}")
+	var s core.Sign
+	name := r.URL.Query().Get("sign")
+	if len(name) == 0 {
+		w.WriteHeader(500)
+		w.Write(([]byte)("Missing sign parameter"))
+		return
+	}
+	sign := s.Generate(r.URL.Query().Get("sign"))
+	json.NewEncoder(w).Encode(sign)
 }
