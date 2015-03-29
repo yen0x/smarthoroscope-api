@@ -14,6 +14,7 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", Index)
 	router.HandleFunc("/stats", horoscope.GetStats)
+	fmt.Println("Started...")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 

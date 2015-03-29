@@ -10,12 +10,18 @@ type SignDao struct {
 	collection *mgo.Collection
 }
 
-func NewSignDao(m *Mongo) *SignDao{
+func NewSignDao(m *Mongo) *SignDao {
 	return &SignDao{m, m.GetCollection(C_SIGN)}
 }
 
-func (sDao *SignDao)findSignByDate(signName string, date string) (*Sign, error) {
-	//TODO check date & name
-	s := sDao.collection.Find(bson.M{"date": date, "name" : signName})
-	return &s, nil
+func (sDao *SignDao) FindSignByDate(signName string, date string) (*Sign, error) {
+	result := sDao.collection.Find(bson.M{"date" : date, "name" : signName})
+	var s Sign
+	err := result.One(&s)
+
+	return &s, err
+}
+
+func (sDao *SignDao) Save(sign *Sign) error {
+	return sDao.collection.Insert(sign)
 }
