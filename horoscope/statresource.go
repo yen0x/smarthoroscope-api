@@ -1,10 +1,10 @@
 package horoscope
 
 import (
-	"net/http"
 	"encoding/json"
-	"smarthoroscope_api/core"
 	"fmt"
+	"net/http"
+	"smarthoroscope_api/core"
 )
 
 func GetStats(w http.ResponseWriter, r *http.Request) {
@@ -31,18 +31,18 @@ func GetStats(w http.ResponseWriter, r *http.Request) {
 	sign, err := signDao.FindSignByDate(name, date)
 
 	//Sign not found
-	if (err != nil && err.Error() == "not found") {
+	if err != nil && err.Error() == "not found" {
 		sign = s.Generate(name, date)
 		err = signDao.Save(sign)
 
-		fmt.Println("generated sign")
-		if (err != nil) {
+		fmt.Println("generated sign " + name)
+		if err != nil {
 			fmt.Println(err)
 			w.WriteHeader(500)
 			w.Write(([]byte)("Internal error"))
 			return
 		}
-	} else if (err != nil) {
+	} else if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(500)
 		w.Write(([]byte)("Internal error"))

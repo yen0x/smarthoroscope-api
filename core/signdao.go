@@ -6,7 +6,7 @@ import (
 )
 
 type SignDao struct {
-	mongo *Mongo
+	mongo      *Mongo
 	collection *mgo.Collection
 }
 
@@ -15,7 +15,7 @@ func NewSignDao(m *Mongo) *SignDao {
 }
 
 func (sDao *SignDao) FindSignByDate(signName string, date string) (*Sign, error) {
-	result := sDao.collection.Find(bson.M{"date" : date, "name" : signName})
+	result := sDao.collection.Find(bson.M{"date": date, "name": signName})
 	var s Sign
 	err := result.One(&s)
 

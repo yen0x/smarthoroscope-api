@@ -1,19 +1,23 @@
 package core
 
-import(
+import (
 	"math/rand"
 )
 
 type Category struct {
-	Main_score int `json:"main_score"`
-	Score1 int `json:"score1"`
-	Score2 int `json:"score2"`
-	Score3 int `json:"score3"`
-	Score4 int `json:"score4"`
+	Id     string `json:"id"`
+	Scores []int  `json:"scores"`
 }
 
 func (c Category) Generate() Category {
-	c.Score1, c.Score2, c.Score3, c.Score4 = rand.Intn(10), rand.Intn(10), rand.Intn(10), rand.Intn(10)
-	c.Main_score = (c.Score1 + c.Score2 + c.Score3 + c.Score4) / 4
+	c.Scores = make([]int, 4)
+	for i, _ := range c.Scores {
+		c.Scores[i] = c.generateNumber()
+	}
 	return c
+}
+
+func (c Category) generateNumber() int {
+	high, low := 10, 3
+	return rand.Intn(high-low+1) + low
 }
